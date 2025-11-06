@@ -66,7 +66,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     
     if (currentUserError) {
       // Token is invalid or expired, remove it
-      console.warn('Error checking current user:', currentUserError);
       localStorage.removeItem('auth_token');
       setHasToken(false);
       setUser(null);
@@ -96,7 +95,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     if (hasToken && isLoading) {
       const timeout = setTimeout(() => {
-        console.log('Authentication check timed out, clearing token');
         localStorage.removeItem('auth_token');
         setHasToken(false);
         setUser(null);
@@ -162,15 +160,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     signOut,
     error,
   };
-
-  console.log('AuthContext state:', { 
-    hasToken: hasTokenNow, 
-    isInitializing, 
-    isLoading, 
-    isActuallyLoading, 
-    isAuthenticated: value.isAuthenticated,
-    hasUser: !!user 
-  });
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -1,15 +1,16 @@
+import { useState } from 'react';
 import { useAuth } from './contexts/AuthContext';
 import { SignIn } from './components/SignIn';
+import { SignUp } from './components/SignUp';
 import { Dashboard } from './components/Dashboard';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import './App.css';
 
 function App() {
-  console.log('App component rendering...')
   const { isAuthenticated, isLoading } = useAuth();
-  console.log('App state:', { isAuthenticated, isLoading })
+  const [showSignUp, setShowSignUp] = useState(false);
 
   if (isLoading) {
-    console.log('App: Showing loading screen')
     return (
       <div style={{ 
         display: 'flex', 
@@ -24,8 +25,19 @@ function App() {
     );
   }
 
-  console.log('App: Showing', isAuthenticated ? 'Dashboard' : 'SignIn')
-  return isAuthenticated ? <Dashboard /> : <SignIn />;
+  if (isAuthenticated) {
+    return <Dashboard />;
+  }
+
+  return (
+    <ErrorBoundary>
+      {showSignUp ? (
+        <SignUp onSwitchToSignIn={() => setShowSignUp(false)} />
+      ) : (
+        <SignIn onSwitchToSignUp={() => setShowSignUp(true)} />
+      )}
+    </ErrorBoundary>
+  );
 }
 
 export default App

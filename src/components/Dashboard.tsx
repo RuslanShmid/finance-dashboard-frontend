@@ -10,7 +10,7 @@ export const Dashboard = () => {
         <h1>Finance Dashboard</h1>
         <div className="user-info">
           <span className="user-name">
-            {user?.first_name} {user?.last_name}
+            {user?.firstName} {user?.lastName}
           </span>
           <span className="user-email">{user?.email}</span>
         </div>
